@@ -6,9 +6,14 @@ from twisted.internet import task
 class StatsdExtension(object):
 
     def __init__(self, crawler):
+        if not crawler.settings.getbool('STATSD_ENABLED', False):
+            raise NotConfigured
+
         host = crawler.settings.get('STATSD_HOST', 'localhost')
         port = crawler.settings.get('STATSD_PORT', 8125)
 
+        self.log_periodic = crawler.settings.get('STATSD_LOG_PERIODIC', True)
+        self.callack_timer = crawler.settings.get('STATSD_LOG_EVERY', 5)
         self.client = statsd.StatsClient(host, port)
         self.stats = crawler.stats
         self._last_stats = {}
@@ -25,8 +30,9 @@ class StatsdExtension(object):
         return ext
 
     def spider_opened(self, spider):
-        self.task = task.LoopingCall(self.log_stats, spider)
-        self.task.start(10)
+        if self.log_periodic:
+            self.log_task = task.LoopingCall(self.log_stats, spider)
+            self.log_task.start(self.callack_timer)
 
     def log_stats(self, spider):
         for key, value in self.stats.get_stats().items():
@@ -37,5 +43,7 @@ class StatsdExtension(object):
                 self._last_stats[key] = value
 
     def spider_closed(self, spider):
-        if self.task and self.task.running:
-            self.task.stop()
+        if hasattr(self, 'log_task') and self.log_task.running:
+            self.log_task.stop()
+
+        self.log_stats(spider)

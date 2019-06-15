@@ -19,7 +19,6 @@ class StatsdExtension(object):
         self.callack_timer = crawler.settings.get('STATSD_LOG_EVERY', 5)
         self.client = statsd.StatsClient(host, port)
         self.stats = crawler.stats
-        self._last_stats = {}
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -41,11 +40,7 @@ class StatsdExtension(object):
         for key, value in self.stats.get_stats().items():
             if isinstance(value, int) or isinstance(value, float):
                 stat_key = create_stat_key(key)
-
-                increment_amount = value - self._last_stats.get(stat_key, 0)
-                self.client.incr(stat_key, increment_amount)
-
-                self._last_stats[stat_key] = value
+                self.client.incr(stat_key, value)
 
     def spider_closed(self, spider):
         if hasattr(self, 'log_task') and self.log_task.running:

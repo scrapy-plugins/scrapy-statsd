@@ -1,12 +1,15 @@
+from scrapy_statsd_extension.utils import create_stat_key
+
 import statsd
 from scrapy import signals
+from scrapy.exceptions import NotConfigured
 from twisted.internet import task
 
 
 class StatsdExtension(object):
 
     def __init__(self, crawler):
-        if not crawler.settings.getbool('STATSD_ENABLED', False):
+        if not crawler.settings.getbool('STATSD_ENABLED', True):
             raise NotConfigured
 
         host = crawler.settings.get('STATSD_HOST', 'localhost')
@@ -37,10 +40,12 @@ class StatsdExtension(object):
     def log_stats(self, spider):
         for key, value in self.stats.get_stats().items():
             if isinstance(value, int) or isinstance(value, float):
-                increment_amount = value - self._last_stats.get(key, 0)
-                self.client.incr(key, increment_amount)
+                stat_key = create_stat_key(key)
 
-                self._last_stats[key] = value
+                increment_amount = value - self._last_stats.get(stat_key, 0)
+                self.client.incr(stat_key, increment_amount)
+
+                self._last_stats[stat_key] = value
 
     def spider_closed(self, spider):
         if hasattr(self, 'log_task') and self.log_task.running:

@@ -37,7 +37,7 @@ To enable the extension you must set:
     STATSD_ENABLED = True
 
 Periodic logging is enabled by default but you can disable it, in which case
-the metrics will be logged when a spider is closed:
+the metrics will be logged only once, when a spider is closed:
 
     STATSD_LOG_PERIODIC = True
 

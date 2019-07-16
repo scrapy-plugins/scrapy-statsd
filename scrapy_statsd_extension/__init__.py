@@ -1,4 +1,4 @@
-from scrapy_statsd_extension.utils import create_stat_key
+from scrapy_statsd_extension import utils, defaults
 
 import statsd
 from scrapy import signals
@@ -9,14 +9,16 @@ from twisted.internet import task
 class StatsdExtension(object):
 
     def __init__(self, crawler):
-        if not crawler.settings.getbool('STATSD_ENABLED', True):
+        if not crawler.settings.getbool('STATSD_ENABLED', defaults.STATSD_ENABLED):
             raise NotConfigured
 
-        host = crawler.settings.get('STATSD_HOST', 'localhost')
-        port = crawler.settings.get('STATSD_PORT', 8125)
+        host = crawler.settings.get('STATSD_HOST', defaults.STATSD_HOST)
+        port = crawler.settings.get('STATSD_PORT', defaults.STATSD_PORT)
 
-        self.log_periodic = crawler.settings.get('STATSD_LOG_PERIODIC', True)
-        self.callack_timer = crawler.settings.get('STATSD_LOG_EVERY', 5)
+        self.log_periodic = crawler.settings.get(
+            'STATSD_LOG_PERIODIC', defaults.STATSD_LOG_PERIODIC)
+        self.callack_timer = crawler.settings.get(
+            'STATSD_LOG_EVERY', defaults.STATSD_LOG_EVERY)
         self.client = statsd.StatsClient(host, port)
         self.stats = crawler.stats
 
@@ -39,7 +41,7 @@ class StatsdExtension(object):
     def log_stats(self, spider):
         for key, value in self.stats.get_stats().items():
             if isinstance(value, int) or isinstance(value, float):
-                stat_key = create_stat_key(key)
+                stat_key = utils.create_stat_key(key)
                 self.client.incr(stat_key, value)
 
     def spider_closed(self, spider):

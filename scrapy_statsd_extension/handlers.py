@@ -16,4 +16,4 @@ class StatsdBase(object):
         return cls(host, port)
 
     def increment(self, key, value):
-        self.client.incr(stat_key, value)
+        self.client.incr(key, value)

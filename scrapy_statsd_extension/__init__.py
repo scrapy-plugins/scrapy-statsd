@@ -2,7 +2,7 @@ from scrapy import signals
 from scrapy.exceptions import NotConfigured
 from scrapy.utils.misc import load_object
 
-from twisted.internet import task
+from twisted.internet.task import LoopingCall
 from scrapy_statsd_extension import utils, defaults
 
 
@@ -35,7 +35,7 @@ class StatsdExtension(object):
 
     def spider_opened(self, spider):
         if self.log_periodic:
-            self.log_task = task(self.log_stats, spider)
+            self.log_task = LoopingCall(self.log_stats, spider)
             self.log_task.start(self.callack_timer)
 
     def log_stats(self, spider):

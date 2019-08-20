@@ -2,6 +2,16 @@
 The scrapy-statsd-extension is a scrapy extension to send scrapy stats to statsd host.
 
 
+## Naming
+
+Scrapy stats names will be mapped to names supported by statsd. Some examples:
+
+    downloader/request_bytes -> downloader.request_bytes
+    downloader/request_method_count/GET -> downloader.request_method_count.GET
+    finish_reason -> finish_reason
+    robotstxt/exception_count/<class 'PermissionError'> -> robotstxt.exception_count.class_PermissionError
+
+
 ## Installation
 Install scrapy-statsd-extension using ``pip``:
 

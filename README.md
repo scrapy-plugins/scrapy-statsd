@@ -54,3 +54,7 @@ By default, stats are logged every 5 seconds, you can adjust that using
 ``STATSD_LOG_EVERY`` which is the number of seconds between logging operations:
 
     STATSD_LOG_EVERY = 5
+
+Set the desired prefix:
+
+    STATSD_PREFIX = 'scrapy'

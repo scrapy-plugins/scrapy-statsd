@@ -69,3 +69,18 @@ by setting ``STATSD_LOG_ONLY`` to ``['downloader', 'robotstxt.exception_count']`
 You can also specify prefixes to ignore the same way using ``STATSD_IGNORE``:
 
     STATSD_IGNORE = []
+
+
+## Tags
+
+Certain platforms such as datadog and influxdb offer tagging options.
+
+To enable tagging set ``STATSD_TAGGING`` to ``True``, it is disabled by default:
+
+    STATSD_TAGGING = False
+
+Then, you can set custom tags using ``STATSD_TAGS``:
+
+    STATSD_TAGS = {
+        'spider_name': True
+    }

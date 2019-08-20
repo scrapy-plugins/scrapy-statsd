@@ -5,24 +5,27 @@ from scrapy_statsd_extension import utils, defaults
 
 class StatsdBase(object):
 
-    def __init__(self, host, port, prefix, log_only, ignored_prefixes):
+    def __init__(self, crawler_settings):
+        host = crawler_settings.get('STATSD_HOST', defaults.STATSD_HOST)
+        port = crawler_settings.get('STATSD_PORT', defaults.STATSD_PORT)
+        prefix = crawler_settings.get('STATSD_PREFIX', defaults.STATSD_PREFIX)
         self.client = statsd.StatsClient(host, port, prefix)
 
+        self.prefixes_to_log = crawler_settings.get(
+            'STATSD_LOG_ONLY', defaults.STATSD_LOG_ONLY)
         self.dont_log_all_fields = bool(log_only) 
-        if self.dont_log_all_fields:
-            self.prefixes_to_log = log_only
 
-        self.ignored_prefixes = ignored_prefixes or []
+        self.ignored_prefixes = (
+            crawler_settings.get('STATSD_IGNORE', defaults.STATSD_IGNORE) or 
+            []
+        )
+
+        self.tagging_enabled = crawler_settings.get('STATSD_TAGGING', defaults.STATSD_TAGGING)
+        self.tags = crawler_settings.get('STATSD_TAGS', defaults.STATSD_TAGS)
 
     @classmethod
     def from_crawler(cls, crawler):
-        host = crawler.settings.get('STATSD_HOST', defaults.STATSD_HOST)
-        port = crawler.settings.get('STATSD_PORT', defaults.STATSD_PORT)
-        prefix = crawler.settings.get('STATSD_PREFIX', defaults.STATSD_PREFIX)
-        log_only = crawler.settings.get('STATSD_LOG_ONLY', defaults.STATSD_LOG_ONLY)
-        ignored_prefixes = crawler.settings.get('STATSD_IGNORE', defaults.STATSD_IGNORE)
-
-        return cls(host, port, prefix, log_only, ignored_prefixes)
+        return cls(crawler.settings)
 
     def not_ignored_field(self, key):
         for prefix in self.ignored_prefixes:
@@ -41,6 +44,17 @@ class StatsdBase(object):
 
         return False
 
-    def increment(self, key, value):
+    def get_tags(self, spider):
+        if not self.tagging_enabled:
+            return
+
+        tags = {}
+
+        if self.tags['spider_name']:
+            tags['spider_name'] = spider.name
+
+        return tags
+
+    def increment(self, key, value, spider):
         if self.not_ignored_field(key) and self.has_valid_prefix(key):
-            self.client.incr(key, value)
+            self.client.incr(key, value, tags=self.get_tags(spider))

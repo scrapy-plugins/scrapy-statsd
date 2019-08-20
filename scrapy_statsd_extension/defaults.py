@@ -5,3 +5,4 @@ STATSD_LOG_PERIODIC = True
 STATSD_LOG_EVERY = 5
 STATSD_HANDLER = 'scrapy_statsd_extension.handlers.StatsdBase'
 STATSD_PREFIX = 'scrapy'
+STATSD_LOG_ONLY = []

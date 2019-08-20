@@ -58,3 +58,14 @@ By default, stats are logged every 5 seconds, you can adjust that using
 Set the desired prefix:
 
     STATSD_PREFIX = 'scrapy'
+
+You can specify which prefixes you want logged if you don't want all scrapy
+stats. The default is an empty list which indicates that all stats should be
+logged. You can, for example, log only downloader and robotstxt exception stats
+by setting ``STATSD_LOG_ONLY`` to ``['downloader', 'robotstxt.exception_count']``.
+
+    STATSD_LOG_ONLY = []
+
+You can also specify prefixes to ignore the same way using ``STATSD_IGNORE``:
+
+    STATSD_IGNORE = []

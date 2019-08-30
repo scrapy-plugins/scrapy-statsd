@@ -115,7 +115,8 @@ default:
     STATSD_TAGGING = False
 
 Then, you can set custom tags using ``STATSD_TAGS``. Currently, only
-``spider_name_tag`` is supported:
+``spider_name_tag`` is supported and setting it to True will add the spider's
+as a tag on all metrics:
 
 ::
 
@@ -123,3 +124,6 @@ Then, you can set custom tags using ``STATSD_TAGS``. Currently, only
         'spider_name_tag': True
     }
 
+You can also set custom tags by setting ``statsd_tags`` attribute on each 
+spider. This must be a dictionary containing tag names as keys and tag values as
+dictionary values.

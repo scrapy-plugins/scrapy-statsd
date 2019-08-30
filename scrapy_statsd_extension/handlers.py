@@ -53,6 +53,9 @@ class StatsdBase(object):
         if self.tags['spider_name_tag']:
             tags['spider_name_tag'] = spider.name
 
+        if hasattr('spider', 'statsd_tags'):
+            tags.extend(spider.statsd_tags)
+
         return tags
 
     def increment(self, key, value, spider):

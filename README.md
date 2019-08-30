@@ -79,8 +79,9 @@ To enable tagging set ``STATSD_TAGGING`` to ``True``, it is disabled by default:
 
     STATSD_TAGGING = False
 
-Then, you can set custom tags using ``STATSD_TAGS``:
+Then, you can set custom tags using ``STATSD_TAGS``. Currently, only ``spider_name_tag``
+is supported:
 
     STATSD_TAGS = {
-        'spider_name': True
+        'spider_name_tag': True
     }

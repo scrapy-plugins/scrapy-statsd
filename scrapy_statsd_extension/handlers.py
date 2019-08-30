@@ -13,7 +13,7 @@ class StatsdBase(object):
 
         self.prefixes_to_log = crawler_settings.get(
             'STATSD_LOG_ONLY', defaults.STATSD_LOG_ONLY)
-        self.dont_log_all_fields = bool(log_only) 
+        self.log_all_fields = bool(log_only) == False 
 
         self.ignored_prefixes = (
             crawler_settings.get('STATSD_IGNORE', defaults.STATSD_IGNORE) or 
@@ -35,7 +35,7 @@ class StatsdBase(object):
         return True
 
     def has_valid_prefix(self, key):
-        if self.dont_log_all_fields is False:
+        if self.log_all_fields is True:
             return True
 
         for prefix in self.prefixes_to_log:
@@ -50,8 +50,8 @@ class StatsdBase(object):
 
         tags = {}
 
-        if self.tags['spider_name']:
-            tags['spider_name'] = spider.name
+        if self.tags['spider_name_tag']:
+            tags['spider_name_tag'] = spider.name
 
         return tags
 

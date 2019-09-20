@@ -7,15 +7,12 @@ from scrapy_statsd_extension import utils, defaults
 
 
 class StatsdExtension(object):
-
     @classmethod
     def from_crawler(cls, crawler):
         ext = cls(crawler)
 
-        crawler.signals.connect(
-            ext.spider_opened, signal=signals.spider_opened)
-        crawler.signals.connect(
-            ext.spider_closed, signal=signals.spider_closed)
+        crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
 
         return ext
 
@@ -30,7 +27,7 @@ class StatsdExtension(object):
             "STATSD_LOG_EVERY", defaults.STATSD_LOG_EVERY
         )
 
-        handler_class = crawler.settings.get('STATSD_HANDLER', defaults.STATSD_HANDLER)
+        handler_class = crawler.settings.get("STATSD_HANDLER", defaults.STATSD_HANDLER)
         self.handler = load_object(handler_class).from_crawler(crawler)
         self.stats = crawler.stats
 

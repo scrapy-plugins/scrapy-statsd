@@ -41,7 +41,7 @@ class StatsdExtension(object):
     def log_stats(self, spider):
         for key, value in self.stats.get_stats().items():
             if isinstance(value, int) or isinstance(value, float):
-                self.handler.increment(utils.create_stat_key(key), value)
+                self.handler.increment(utils.create_stat_key(key), value, spider)
 
     def spider_closed(self, spider):
         if hasattr(self, 'log_task') and self.log_task.running:

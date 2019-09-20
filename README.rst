@@ -12,9 +12,9 @@ examples:
 
 ::
 
+    finish_reason -> finish_reason
     downloader/request_bytes -> downloader.request_bytes
     downloader/request_method_count/GET -> downloader.request_method_count.GET
-    finish_reason -> finish_reason
     robotstxt/exception_count/<class 'PermissionError'> -> robotstxt.exception_count.class_PermissionError
 
 Installation
@@ -127,3 +127,4 @@ as a tag on all metrics:
 You can also set custom tags by setting ``statsd_tags`` attribute on each 
 spider. This must be a dictionary containing tag names as keys and tag values as
 dictionary values.
+

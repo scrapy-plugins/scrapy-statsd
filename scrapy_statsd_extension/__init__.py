@@ -7,16 +7,15 @@ from scrapy_statsd_extension import utils, defaults
 
 
 class StatsdExtension(object):
-
     def __init__(self, crawler):
-        if not crawler.settings.getbool('STATSD_ENABLED', defaults.STATSD_ENABLED):
+        if not crawler.settings.getbool("STATSD_ENABLED", defaults.STATSD_ENABLED):
             raise NotConfigured
 
         self.log_periodic = crawler.settings.get(
-            'STATSD_LOG_PERIODIC', defaults.STATSD_LOG_PERIODIC
+            "STATSD_LOG_PERIODIC", defaults.STATSD_LOG_PERIODIC
         )
         self.callack_timer = crawler.settings.get(
-            'STATSD_LOG_EVERY', defaults.STATSD_LOG_EVERY
+            "STATSD_LOG_EVERY", defaults.STATSD_LOG_EVERY
         )
 
         self.handler = load_object(defaults.STATSD_HANDLER).from_crawler(crawler)
@@ -26,10 +25,8 @@ class StatsdExtension(object):
     def from_crawler(cls, crawler):
         ext = cls(crawler)
 
-        crawler.signals.connect(
-            ext.spider_opened, signal=signals.spider_opened)
-        crawler.signals.connect(
-            ext.spider_closed, signal=signals.spider_closed)
+        crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
 
         return ext
 
@@ -44,7 +41,7 @@ class StatsdExtension(object):
                 self.handler.increment(utils.create_stat_key(key), value, spider)
 
     def spider_closed(self, spider):
-        if hasattr(self, 'log_task') and self.log_task.running:
+        if hasattr(self, "log_task") and self.log_task.running:
             self.log_task.stop()
 
         self.log_stats(spider)

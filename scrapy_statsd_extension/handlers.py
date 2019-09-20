@@ -4,24 +4,25 @@ from scrapy_statsd_extension import utils, defaults
 
 
 class StatsdBase(object):
-
     def __init__(self, crawler_settings):
-        host = crawler_settings.get('STATSD_HOST', defaults.STATSD_HOST)
-        port = crawler_settings.get('STATSD_PORT', defaults.STATSD_PORT)
-        prefix = crawler_settings.get('STATSD_PREFIX', defaults.STATSD_PREFIX)
+        host = crawler_settings.get("STATSD_HOST", defaults.STATSD_HOST)
+        port = crawler_settings.get("STATSD_PORT", defaults.STATSD_PORT)
+        prefix = crawler_settings.get("STATSD_PREFIX", defaults.STATSD_PREFIX)
         self.client = statsd.StatsClient(host, port, prefix)
 
         self.prefixes_to_log = crawler_settings.get(
-            'STATSD_LOG_ONLY', defaults.STATSD_LOG_ONLY)
-        self.log_all_fields = bool(log_only) == False 
+            "STATSD_LOG_ONLY", defaults.STATSD_LOG_ONLY
+        )
+        self.log_all_fields = bool(log_only) == False
 
         self.ignored_prefixes = (
-            crawler_settings.get('STATSD_IGNORE', defaults.STATSD_IGNORE) or 
-            []
+            crawler_settings.get("STATSD_IGNORE", defaults.STATSD_IGNORE) or []
         )
 
-        self.tagging_enabled = crawler_settings.get('STATSD_TAGGING', defaults.STATSD_TAGGING)
-        self.tags = crawler_settings.get('STATSD_TAGS', defaults.STATSD_TAGS)
+        self.tagging_enabled = crawler_settings.get(
+            "STATSD_TAGGING", defaults.STATSD_TAGGING
+        )
+        self.tags = crawler_settings.get("STATSD_TAGS", defaults.STATSD_TAGS)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -50,10 +51,10 @@ class StatsdBase(object):
 
         tags = {}
 
-        if self.tags['spider_name_tag']:
-            tags['spider_name_tag'] = spider.name
+        if self.tags["spider_name_tag"]:
+            tags["spider_name_tag"] = spider.name
 
-        if hasattr('spider', 'statsd_tags'):
+        if hasattr("spider", "statsd_tags"):
             tags.extend(spider.statsd_tags)
 
         return tags

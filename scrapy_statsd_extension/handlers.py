@@ -8,6 +8,7 @@ class StatsdBase(object):
         host = crawler_settings.get("STATSD_HOST", defaults.STATSD_HOST)
         port = crawler_settings.get("STATSD_PORT", defaults.STATSD_PORT)
         prefix = crawler_settings.get("STATSD_PREFIX", defaults.STATSD_PREFIX)
+        log_only = False
         self.client = statsd.StatsClient(host, port, prefix)
 
         self.prefixes_to_log = crawler_settings.get(
@@ -16,7 +17,7 @@ class StatsdBase(object):
         self.log_all_fields = bool(log_only) == False
 
         self.ignored_prefixes = (
-            crawler_settings.get("STATSD_IGNORE", defaults.STATSD_IGNORE) or []
+            crawler_settings.get("STATSD_IGNORE", defaults.STATSD_IGNORE)
         )
 
         self.tagging_enabled = crawler_settings.get(

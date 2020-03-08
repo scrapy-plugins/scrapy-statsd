@@ -7,6 +7,15 @@ from scrapy_statsd_extension import utils, defaults
 
 
 class StatsdExtension(object):
+    @classmethod
+    def from_crawler(cls, crawler):
+        ext = cls(crawler)
+
+        crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
+
+        return ext
+
     def __init__(self, crawler):
         if not crawler.settings.getbool("STATSD_ENABLED", defaults.STATSD_ENABLED):
             raise NotConfigured
@@ -18,17 +27,9 @@ class StatsdExtension(object):
             "STATSD_LOG_EVERY", defaults.STATSD_LOG_EVERY
         )
 
-        self.handler = load_object(defaults.STATSD_HANDLER).from_crawler(crawler)
+        handler_class = crawler.settings.get("STATSD_HANDLER", defaults.STATSD_HANDLER)
+        self.handler = load_object(handler_class).from_crawler(crawler)
         self.stats = crawler.stats
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        ext = cls(crawler)
-
-        crawler.signals.connect(ext.spider_opened, signal=signals.spider_opened)
-        crawler.signals.connect(ext.spider_closed, signal=signals.spider_closed)
-
-        return ext
 
     def spider_opened(self, spider):
         if self.log_periodic:

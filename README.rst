@@ -12,9 +12,9 @@ examples:
 
 ::
 
+    finish_reason -> finish_reason
     downloader/request_bytes -> downloader.request_bytes
     downloader/request_method_count/GET -> downloader.request_method_count.GET
-    finish_reason -> finish_reason
     robotstxt/exception_count/<class 'PermissionError'> -> robotstxt.exception_count.class_PermissionError
 
 Installation
@@ -102,10 +102,40 @@ You can also specify prefixes to ignore the same way using
 
     STATSD_IGNORE = []
 
+Handlers
+--------
+
+This extension currently supports sending stats to 3 collectors: graphite, 
+telegraf and datadog.
+
+To enable each of these you have to set ``STATSD_HANDLER``:
+
+Please note that tags for graphite handler are not currently supported. To set
+the handler:
+
+::
+
+    STATSD_HANDLER = "scrapy_statsd_extension.handlers.graphite.GraphiteHandler"
+
+For telegraf, you will need the statsd input plugin.
+
+::
+
+    STATSD_HANDLER = "scrapy_statsd_extension.handlers.telegraf.TelegrafHandler"
+
+For datadog, you will need to set your api key in ``DATADOG_API_KEY`` in
+settings or as a system variable.
+
+::
+
+    STATSD_HANDLER = "scrapy_statsd_extension.handlers.datadog.DatadogHandler"
+
+
 Tags
 ----
 
 Certain platforms such as datadog and influxdb offer tagging options.
+
 
 To enable tagging set ``STATSD_TAGGING`` to ``True``, it is disabled by
 default:
@@ -127,3 +157,4 @@ as a tag on all metrics:
 You can also set custom tags by setting ``statsd_tags`` attribute on each 
 spider. This must be a dictionary containing tag names as keys and tag values as
 dictionary values.
+

@@ -7,5 +7,5 @@ STATSD_PREFIX = "scrapy"
 STATSD_HANDLER = "scrapy_statsd_extension.handlers.graphite.GraphiteHandler"
 STATSD_LOG_ONLY = []
 STATSD_IGNORE = []
-STATSD_TAGGING = False
+STATSD_TAGGING = True
 STATSD_TAGS = {"spider_name": True}

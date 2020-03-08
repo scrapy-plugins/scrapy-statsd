@@ -24,7 +24,7 @@ class StatsdBaseHandler:
         self.tagging_enabled = crawler_settings.get(
             "STATSD_TAGGING", defaults.STATSD_TAGGING
         )
-        self.tags = crawler_settings.get("STATSD_TAGS", defaults.STATSD_TAGS)
+        self.tag_settings = crawler_settings.get("STATSD_TAGS", defaults.STATSD_TAGS)
 
     def not_ignored_field(self, key):
         for prefix in self.ignored_prefixes:
@@ -49,10 +49,10 @@ class StatsdBaseHandler:
 
         tags = {}
 
-        if self.tags["spider_name_tag"]:
-            tags["spider_name_tag"] = spider.name
+        if self.tag_settings.get("spider_name", False):
+            tags["spider_name"] = spider.name
 
-        if hasattr("spider", "statsd_tags"):
+        if hasattr(spider, "statsd_tags"):
             tags.extend(spider.statsd_tags)
 
         return tags

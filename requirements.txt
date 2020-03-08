@@ -1,3 +1,4 @@
-Twisted
-Scrapy
+scrapy
 statsd
+graphyte
+datadog

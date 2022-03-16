@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2", "cython"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=scrapy_statsd_extension --cov-report=term-missing --cov-report=xml:cover/coverage.xml --cov-report=html:cover/html" 
+testpaths = [
+    "tests"
+]
+asyncio_mode = "auto"

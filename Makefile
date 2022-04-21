@@ -1,7 +1,7 @@
 --shell=/usr/bin/env bash
 .PHONY: all clean build develop install test
 
-build:setup.py
+build:pyproject.toml
 	python -m pip install --no-cache-dir pip setuptools wheel build
 	python -m build
 
@@ -20,7 +20,7 @@ publish:
 	git push
 
 clean:
-	rm -v -rf .eggs/ eggs/ dbs/ tmp/ .pytest_cache/ .mypy_cache/ .scrapy/ logs/ *.egg-info/ dist/ build/ *.log nohup.out nohup.err _trial_temp/ .eggs/ .glab-cli/
+	rm -v -rf .tox .eggs/ eggs/ dbs/ tmp/ .pytest_cache/ .mypy_cache/ .scrapy/ logs/ *.egg-info/ dist/ build/ *.log nohup.out nohup.err _trial_temp/ .eggs/ .glab-cli/
 	find . -name "*.pyc" -type f -exec rm -v -rf {} \+
 	find . -name "__pycache__" -type d -exec rm -v -rf {} \+
 

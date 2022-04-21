@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  scrapy:
+    image: registry.gitlab.com/zacharywilson/scrapy-opensearch/scrapy-statsd-extension:latest
+    build: .
+    command: crawl dummy_spider
+    volumes:
+      - .:/usr/src/app
+    environment:
+      SCRAPY_LOG_LEVEL: "DEBUG"
+    depends_on:
+      - statsd
+  statsd:
+    image: graphiteapp/graphite-statsd:latest
+    container_name: statsd
+    restart: always
+    ports:
+      - 8080:80
+      - 2003-2004:2003-2004
+      - 2023-2024:2023-2024
+      - 8125:8125/udp
+      - 8126:8126

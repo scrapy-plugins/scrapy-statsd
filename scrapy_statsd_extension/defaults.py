@@ -8,3 +8,4 @@ STATSD_PREFIX = "scrapy"
 STATSD_LOG_ONLY = []
 STATSD_TAGGING = False
 STATSD_TAGS = {"spider_name": True}
+STATSD_IGNORE = []

@@ -13,7 +13,7 @@ class StatsdBase(object):
         self.prefixes_to_log = crawler_settings.get(
             "STATSD_LOG_ONLY", defaults.STATSD_LOG_ONLY
         )
-        self.log_all_fields = bool(log_only) == False
+        self.log_all_fields = True
 
         self.ignored_prefixes = (
             crawler_settings.get("STATSD_IGNORE", defaults.STATSD_IGNORE) or []

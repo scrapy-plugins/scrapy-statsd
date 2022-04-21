@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime as dt
 import uuid
 
@@ -11,7 +12,7 @@ class DummySpiderSpider(scrapy.Spider):
 
     def parse(self, response):
         yield {
-            "uuid": uuid.uuid1(),
+            "uuid": str(uuid.uuid1()),
             "timestamp": dt.datetime.now(),
             "url": response.url,
         }

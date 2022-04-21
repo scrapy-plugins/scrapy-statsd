@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import pathlib
-from setuptools import setup, find_packages
 
+from setuptools import find_packages, setup
 
 setup(
     name="scrapy-statsd-extension",
@@ -17,8 +18,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.10"
+        "Programming Language :: Python :: 3.10",
     ],
-    packages=find_packages(exclude=("tests", "tests.*")),
+    packages=find_packages(exclude=("tests")),
     install_requires=["Twisted", "Scrapy", "statsd-telegraf"],
 )

@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import statsd
 
-from scrapy_statsd_extension import utils, defaults
+from scrapy_statsd_extension import defaults, utils
 
 
 class StatsdBase(object):
@@ -32,7 +33,6 @@ class StatsdBase(object):
         for prefix in self.ignored_prefixes:
             if key.startswith(prefix):
                 return False
-
         return True
 
     def has_valid_prefix(self, key):

@@ -60,6 +60,5 @@ class StatsdBase(object):
         return tags
 
     def increment(self, key, value, spider):
-        spider.log(f"Incrementing {key} by {value}")
         if self.not_ignored_field(key) and self.has_valid_prefix(key):
             self.client.incr(key, value)

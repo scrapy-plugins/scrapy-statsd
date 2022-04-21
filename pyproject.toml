@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q --cov=scrapy_statsd_extension --cov-report=term-missing --cov-report=xml:cover/coverage.xml --cov-report=html:cover/html" 
+addopts = "-ra -q --cov=src --cov-report=term-missing --cov-report=xml:cover/coverage.xml --cov-report=html:cover/html"
 testpaths = [
     "tests"
 ]

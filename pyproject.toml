@@ -1,13 +1,39 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2", "cython"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools_scm]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q --cov=src --cov-report=term-missing --cov-report=xml:cover/coverage.xml --cov-report=html:cover/html"
-testpaths = [
-    "tests"
-]
+testpaths = ["tests"]
 asyncio_mode = "auto"
+
+[tool.pdm]
+[tool.pdm.version]
+source = "scm"
+[tool.pdm.build]
+includes = ["src"]
+excludes = ["tests"]
+source-includes = ["tests"]
+[tool.pdm.dev-dependencies]
+lint = ["flake8", "black", "mypy", "pre-commit", "check-manifest"]
+test = ["pytest", "pytest-cov", "pytest-asyncio", "tox"]
+doc = ["mkdocs"]
+dev = [
+    "check-manifest",
+    "pre-commit",
+    "ipython",
+    "-e file:///${PROJECT_ROOT}#egg=scrapy-statsd",
+]
+
+[project]
+name = "scrapy-statsd"
+dynamic = ["version"]
+description = "`scrapy-statsd` is a scrapy extension to send scrapy stats to a statsd host, e.g. [graphite/statsd](https://hub.docker.com/r/graphiteapp/graphite-statsd/)."
+authors = [{ name = "Zachary Wilson", email = "wilsonze@gmail.com" }]
+dependencies = ["Twisted", "Scrapy", "statsd", "statsd-telegraf"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "proprietary" }
+[tool.pdm.readme]
+content-type = "text/markdown"

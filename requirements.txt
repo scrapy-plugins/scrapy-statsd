@@ -1,4 +1,0 @@
-Twisted
-Scrapy
-statsd
-statsd-telegraf

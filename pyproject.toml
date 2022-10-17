@@ -28,7 +28,7 @@ dev = [
 ]
 
 [project]
-name = "scrapy-statsd-extension"
+name = "scrapy-statsd"
 dynamic = ["version"]
 description = "Scrapy extenstion to log stats to statsd"
 authors = [

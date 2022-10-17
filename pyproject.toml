@@ -9,6 +9,7 @@ testpaths = ["tests"]
 asyncio_mode = "auto"
 
 [tool.pdm]
+package-dir = "src"
 [tool.pdm.version]
 source = "scm"
 [tool.pdm.build]
@@ -27,13 +28,41 @@ dev = [
 ]
 
 [project]
-name = "scrapy-statsd"
+name = "scrapy-statsd-extension"
 dynamic = ["version"]
-description = "`scrapy-statsd` is a scrapy extension to send scrapy stats to a statsd host, e.g. [graphite/statsd](https://hub.docker.com/r/graphiteapp/graphite-statsd/)."
-authors = [{ name = "Zachary Wilson", email = "wilsonze@gmail.com" }]
-dependencies = ["Twisted", "Scrapy", "statsd", "statsd-telegraf"]
+description = "Scrapy extenstion to log stats to statsd"
+authors = [
+    { name = "Zachary Wilson", email = "wilsonze@gmail.com" },
+    { name = "Scrapy developers" },
+]
+dependencies = [
+    "Twisted",
+    "Scrapy",
+    "statsd",
+    "statsd-telegraf",
+    "Scrapy",
+    "Twisted",
+    "scrapy",
+    "statsd-telegraf",
+]
 requires-python = ">=3.10"
 readme = "README.md"
-license = { text = "proprietary" }
+license = { text = "BSD" }
+
+[project.urls]
+Homepage = "https://github.com/zack-wilson/scrapy-statsd"
+Download = "https://github.com/zack-wilson/scrapy-statsd.git"
+
+[project.optional-dependencies]
+test = [
+    "hypothesis",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "setup-cfg-fmt",
+    "tox",
+]
 [tool.pdm.readme]
 content-type = "text/markdown"

@@ -1,4 +1,4 @@
-from scrapy_statsd_extension.utils import create_stat_key
+from scrapy_statsd.utils import create_stat_key
 
 
 def test_create_stat_key():

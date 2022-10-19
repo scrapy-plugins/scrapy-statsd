@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import statsd
 
-from scrapy_statsd_extension import defaults, utils
+from scrapy_statsd import defaults, utils
 
 
 class StatsdBase(object):

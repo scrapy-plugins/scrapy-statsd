@@ -1,1 +1,1 @@
-from scrapy_statsd_extension import handlers
+from scrapy_statsd import handlers

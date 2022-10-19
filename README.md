@@ -17,7 +17,7 @@ examples:
 
 Install scrapy-statsd-extension using `pip`:
 
-    $ pip install scrapy-statsd-extension
+    pip install scrapy-statsd-extension
 
 ## Configuration
 
@@ -28,7 +28,7 @@ First, you need to include the extension to your `EXTENSIONS` dict in
 
     EXTENSIONS = {
         ...
-        'scrapy_statsd_extension.StatsdExtension': 123,
+        'scrapy_statsd.StatsdExtension': 123,
         ...
     }
 

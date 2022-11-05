@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Usage: ./bin/test
+set -xeuo pipefail
+
+command -v docker || exit 1
+
+
+function stop_docker() {
+    docker compose down --remove-orphans --volumes
+}
+
+docker compose up --wait statsd
+docker compose run scrapy && stop_docker

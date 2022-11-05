@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from scrapy import signals
 from scrapy.exceptions import NotConfigured
 from scrapy.utils.misc import load_object
-
 from twisted.internet.task import LoopingCall
-from scrapy_statsd_extension import utils, defaults
+
+from scrapy_statsd import defaults, utils
 
 
 class StatsdExtension(object):

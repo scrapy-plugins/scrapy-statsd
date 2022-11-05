@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import statsd
 
-from scrapy_statsd_extension import utils, defaults
+from scrapy_statsd import defaults, utils
 
 
 class StatsdBase(object):
@@ -13,7 +14,7 @@ class StatsdBase(object):
         self.prefixes_to_log = crawler_settings.get(
             "STATSD_LOG_ONLY", defaults.STATSD_LOG_ONLY
         )
-        self.log_all_fields = bool(log_only) == False
+        self.log_all_fields = True
 
         self.ignored_prefixes = (
             crawler_settings.get("STATSD_IGNORE", defaults.STATSD_IGNORE) or []
@@ -32,7 +33,6 @@ class StatsdBase(object):
         for prefix in self.ignored_prefixes:
             if key.startswith(prefix):
                 return False
-
         return True
 
     def has_valid_prefix(self, key):
@@ -61,4 +61,4 @@ class StatsdBase(object):
 
     def increment(self, key, value, spider):
         if self.not_ignored_field(key) and self.has_valid_prefix(key):
-            self.client.incr(key, value, tags=self.get_tags(spider))
+            self.client.incr(key, value)

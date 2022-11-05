@@ -1,0 +1,68 @@
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --cov=src --cov-report=term-missing --cov-report=xml:cover/coverage.xml --cov-report=html:cover/html"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.pdm]
+package-dir = "src"
+[tool.pdm.version]
+source = "scm"
+[tool.pdm.build]
+includes = ["src"]
+excludes = ["tests"]
+source-includes = ["tests"]
+[tool.pdm.dev-dependencies]
+lint = ["flake8", "black", "mypy", "pre-commit", "check-manifest"]
+test = ["pytest", "pytest-cov", "pytest-asyncio", "tox"]
+doc = ["mkdocs"]
+dev = [
+    "check-manifest",
+    "pre-commit",
+    "ipython",
+    "-e file:///${PROJECT_ROOT}#egg=scrapy-statsd",
+]
+
+[project]
+name = "scrapy-statsd"
+dynamic = ["version"]
+description = "Scrapy extenstion to log stats to statsd"
+authors = [
+    { name = "Zachary Wilson", email = "wilsonze@gmail.com" },
+    { name = "Scrapy developers" },
+]
+dependencies = [
+    "Twisted",
+    "Scrapy",
+    "statsd",
+    "statsd-telegraf",
+    "Scrapy",
+    "Twisted",
+    "scrapy",
+    "statsd-telegraf",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "BSD" }
+
+[project.urls]
+Homepage = "https://github.com/zack-wilson/scrapy-statsd"
+Download = "https://github.com/zack-wilson/scrapy-statsd.git"
+
+[project.optional-dependencies]
+test = [
+    "hypothesis",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "setup-cfg-fmt",
+    "tox",
+]
+[tool.pdm.readme]
+content-type = "text/markdown"
